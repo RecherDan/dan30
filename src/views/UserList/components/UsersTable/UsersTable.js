@@ -1,0 +1,235 @@
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { makeStyles } from '@material-ui/styles';
+import {MyContext} from 'App';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Avatar,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  TablePagination, Grid, withStyles
+} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
+import { getInitials } from 'helpers';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import {fade} from "@material-ui/core/styles";
+import InputBase from "@material-ui/core/InputBase";
+
+const useStyles = makeStyles(theme => ({
+  root: {},
+  button: {
+    margin: theme.spacing(1),
+  },
+  content: {
+    padding: 0
+  },
+  inner: {
+  },
+  nameContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  avatar: {
+    marginRight: theme.spacing(2)
+  },
+  actions: {
+    justifyContent: 'flex-end'
+  }
+}));
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 2,
+    position: 'relative',
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: 10,
+    width: '70px',
+    padding: '5px 0px',
+    margin: 'none',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}))(InputBase);
+const UsersTable = props => {
+  const { className, cat, ...rest } = props;
+
+  const classes = useStyles();
+
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+
+
+
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedUsers.indexOf(id);
+    let newSelectedUsers = [];
+
+    if (selectedIndex === -1) {
+      newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
+    } else if (selectedIndex === 0) {
+      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
+    } else if (selectedIndex === selectedUsers.length - 1) {
+      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelectedUsers = newSelectedUsers.concat(
+        selectedUsers.slice(0, selectedIndex),
+        selectedUsers.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelectedUsers(newSelectedUsers);
+  };
+
+  const handlePageChange = (event, page) => {
+    setPage(page);
+  };
+
+  const handleRowsPerPageChange = event => {
+    setRowsPerPage(event.target.value);
+  };
+
+  return (
+    <MyContext.Consumer>
+      {(context) => (
+    <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardContent className={classes.content}>
+        <PerfectScrollbar>
+          <div className={classes.inner}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                    <TableCell padding="checkbox" style={{ width: '10%' }}>
+                      { context.AdminMode ? "Del" : "Take" }
+                    </TableCell>
+                  <TableCell  style={{ width: '25%' }}>Item</TableCell>
+                  <TableCell  style={{ width: '15%' }} >Amount</TableCell>
+                  <TableCell style={{ width: '50%' }} >Who</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {context.items.map((item) => {
+                  if (item.cat === cat) {
+                    return(
+                    <TableRow
+                      className={classes.tableRow}
+                      hover
+                      key={item.id}
+                      selected={item.taking === "yes" ? true : false}
+                    >
+                       <TableCell padding="checkbox">
+                         {context.AdminMode ?
+                           <IconButton className={classes.button} aria-label="delete" color="primary"
+                                       onClick={() => context.removeItemFunction(item.id, cat)}>
+                             <DeleteIcon/>
+                           </IconButton>
+                           :
+                           <Checkbox
+                           checked={item.taking === "yes" ? true : false}
+                           onChange={context.handleChangeTakeFunction}
+                           color="primary"
+                           name={item.id}
+                           value={cat}
+                           />
+                         }
+                      </TableCell>
+
+                      <TableCell>
+                        {item.title}
+                      </TableCell>
+                      <TableCell>
+                        {item.exists} / {item.amount}
+                      </TableCell>
+                      <TableCell>
+                        {item.users}
+                      </TableCell>
+                    </TableRow>
+                    )  }
+                })
+                }
+                {context.AdminMode ?
+
+                  <TableRow>
+
+                    <TableCell colSpan={2}>
+                      <FormControl className={classes.margin}>
+                        <BootstrapInput defaultValue={context.currentItem} id="currentItem"
+                                        onChange={context.handleChangeFunction} style={{width: '120px'}}/>
+                      </FormControl>
+                    </TableCell>
+                    <TableCell colSpan={1}>
+                      <FormControl className={classes.margin}>
+                        <BootstrapInput defaultValue={context.amountOfItem} id="amountOfItem"
+                                        onChange={context.handleChangeFunction} style={{width: '30px'}}/>
+                      </FormControl>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="primary" size="small" onClick={() => {
+                        context.handleSubmitFunction(context.currentItem, context.amountOfItem, cat)
+                      }}>
+                        Submit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  :
+                  <div>
+
+                  </div>
+                }
+              </TableBody>
+            </Table>
+          </div>
+        </PerfectScrollbar>
+      </CardContent>
+      <CardActions className={classes.actions}>
+
+      </CardActions>
+    </Card>
+      )}
+    </MyContext.Consumer>
+  );
+};
+
+UsersTable.propTypes = {
+  className: PropTypes.string
+};
+
+export default UsersTable;
