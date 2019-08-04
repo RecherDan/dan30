@@ -1,0 +1,13 @@
+[debug] [2019-08-03T08:25:49.037Z] ----------------------------------------------------------------------
+[debug] [2019-08-03T08:25:49.039Z] Command:       /usr/local/bin/node /home/dan/.npm-global/bin/firebase deploy
+[debug] [2019-08-03T08:25:49.039Z] CLI Version:   7.0.2
+[debug] [2019-08-03T08:25:49.039Z] Platform:      linux
+[debug] [2019-08-03T08:25:49.039Z] Node Version:  v10.16.1
+[debug] [2019-08-03T08:25:49.039Z] Time:          Sat Aug 03 2019 11:25:49 GMT+0300 (Israel Daylight Time)
+[debug] [2019-08-03T08:25:49.039Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-08-03T08:25:49.044Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-08-03T08:25:49.044Z] > authorizing via signed-in user
+[debug] [2019-08-03T08:25:49.044Z] [iam] checking project dan30-91978 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-08-03T08:25:49.045Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/dan30-91978:testIamPermissions  
+
