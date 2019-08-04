@@ -127,7 +127,6 @@ const LatestSales = props => {
           >
             <MenuItem value={10}>Going</MenuItem>
             <MenuItem value={20}>Not Going</MenuItem>
-            <MenuItem value={30}>maybe</MenuItem>
           </Select>
         </FormControl>
 

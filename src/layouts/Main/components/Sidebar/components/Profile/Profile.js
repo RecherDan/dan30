@@ -57,7 +57,6 @@ const Profile = props => {
         { context.user ? context.user.displayName : "USERNAME"}
       </Typography>
       <Typography variant="body2">{ context.isAdmin ? "Admin" : "Normal user" }</Typography>
-      {console.log("Admin Mode: " + context.AdminMode + " IsAdmin: " + context.isAdmin)}
       {context.isAdmin ?
         <FormGroup row>
           <FormControlLabel

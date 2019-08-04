@@ -67,7 +67,6 @@ const TotalProfit = props => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>  </TableCell>
                   <TableCell> Package </TableCell>
                   <TableCell> Description </TableCell>
                   <TableCell> Price </TableCell>
@@ -75,20 +74,18 @@ const TotalProfit = props => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>
-                    <Avatar>
+
+                  <TableCell> <Avatar>
                     <Fastfood />
-                  </Avatar> </TableCell>
-                  <TableCell> Full Package </TableCell>
+                  </Avatar> Full Package </TableCell>
                   <TableCell>Food and alcohol</TableCell>
                   <TableCell> 150 </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>
-                    <Avatar>
-                      <LocalPizza />
-                    </Avatar> </TableCell>
-                  <TableCell>Light Package </TableCell>
+
+                  <TableCell>                    <Avatar>
+                    <LocalPizza />
+                  </Avatar>Light Package </TableCell>
                   <TableCell>only food</TableCell>
                   <TableCell> 100 </TableCell>
                 </TableRow>

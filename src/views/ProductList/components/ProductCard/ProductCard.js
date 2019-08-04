@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {findArrayElementByTitle, MyContext} from 'App';
-import {ListItem, ListItemAvatar, List, Avatar,ListItemText} from "@material-ui/core";
+import {ListItem, ListItemAvatar, List, Avatar,ListItemText} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AirlineSeat from '@material-ui/icons/AirlineSeatReclineExtra';
 import {
@@ -51,81 +51,104 @@ const ProductCard = props => {
   return (
     <MyContext.Consumer>
       {(context) => (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      { console.log(findArrayElementByTitle(context.comes,car.driverid)) }
-      <CardContent>
-        <div className={classes.imageContainer}>
-          <img
-            alt="Product"
-            className={classes.image}
-            src={findArrayElementByTitle(context.comes,car.driverid).img}
-          />
-        </div>
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
+        <Card
+          {...rest}
+          className={clsx(classes.root, className)}
         >
-          {findArrayElementByTitle(context.comes,car.driverid).name}
-        </Typography>
-
-          <List dense className={classes.root}>
-
-          {car.userslist.map(usr => (
-            <ListItem key={usr} button>
-            <ListItemAvatar>
-              <Avatar
-                alt={`{usr}`}
-                src={findArrayElementByTitle(context.comes,usr).img}
+          { console.log(findArrayElementByTitle(context.comes,car.driverid)) }
+          <CardContent>
+            <div className={classes.imageContainer}>
+              <img
+                alt="Product"
+                className={classes.image}
+                src={findArrayElementByTitle(context.comes,car.driverid).img}
               />
-            </ListItemAvatar>
-            <ListItemText id={usr} primary={findArrayElementByTitle(context.comes,usr).name} />
-            </ListItem>
-          ))}
-          </List>
-
-      </CardContent>
-      <Divider />
-      <CardActions>
-        <Grid
-          container
-          justify="space-between"
-        >
-          <Grid
-            className={classes.statsItem}
-            item
-          >
-
-            <Button style={{ visibility: ((!context.incar )|| car.inthiscar ) ? "visible" : "hidden"}} variant="contained" size="small" color="primary" className={classes.button} onClick={() => { context.joincarFunction(car.id,(car.inthiscar? false : true))}}>
-              {car.inthiscar? "Exit" : "Join"}
-            </Button>
-          </Grid>
-          <Grid
-            className={classes.statsItem}
-            item
-          >
-            <AirlineSeat className={classes.statsIcon} />
+            </div>
             <Typography
-              display="inline"
-              variant="body2"
+              align="center"
+              gutterBottom
+              variant="h4"
             >
-              {car.amount - car.exists} seats left
+              {findArrayElementByTitle(context.comes,car.driverid).name}
             </Typography>
-          </Grid>
-        </Grid>
-      </CardActions>
-    </Card>
+
+            <List
+              className={classes.root}
+              dense
+            >
+
+              {
+                car.userslist.map(usr => {
+                  let usrobj = findArrayElementByTitle(context.comes, usr);
+                  if ( usrobj !==undefined ) {
+                    return (
+                      <ListItem
+                        button
+                        key={usr}
+                      >
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={'{usr}'}
+                            src={usrobj.img}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          id={usr}
+                          primary={usrobj.name}
+                        />
+                      </ListItem>
+                    )
+                  }
+                })
+              }
+            </List>
+
+          </CardContent>
+          <Divider />
+          <CardActions>
+            <Grid
+              container
+              justify="space-between"
+            >
+              <Grid
+                className={classes.statsItem}
+                item
+              >
+
+                <Button
+                  className={classes.button}
+                  color="primary"
+                  onClick={() => { context.joincarFunction(car.id,(car.inthiscar? false : true))}}
+                  size="small"
+                  style={{ visibility: ((!context.incar )|| car.inthiscar ) ? 'visible' : 'hidden'}}
+                  variant="contained"
+                >
+                  {car.inthiscar? 'Exit' : 'Join'}
+                </Button>
+              </Grid>
+              <Grid
+                className={classes.statsItem}
+                item
+              >
+                <AirlineSeat className={classes.statsIcon} />
+                <Typography
+                  display="inline"
+                  variant="body2"
+                >
+                  {car.amount - car.exists} seats left
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardActions>
+        </Card>
       )}
     </MyContext.Consumer>
   );
 };
 
 ProductCard.propTypes = {
-  className: PropTypes.string,
-  car: PropTypes.object.isRequired
+  car: PropTypes.object.isRequired,
+  className: PropTypes.string
 };
 
 export default ProductCard;

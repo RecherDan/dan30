@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
-import {MyContext} from 'App';
+import {findArrayElementByTitle, MyContext} from 'App';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
@@ -24,10 +24,10 @@ import {
 import Button from '@material-ui/core/Button';
 
 import { getInitials } from 'helpers';
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import {fade} from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import {fade} from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -123,106 +123,139 @@ const UsersTable = props => {
   const handleRowsPerPageChange = event => {
     setRowsPerPage(event.target.value);
   };
-
+  let k=0;
+  let curexist =0;
   return (
     <MyContext.Consumer>
       {(context) => (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardContent className={classes.content}>
-        <PerfectScrollbar>
-          <div className={classes.inner}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                    <TableCell padding="checkbox" style={{ width: '10%' }}>
-                      { context.AdminMode ? "Del" : "Take" }
-                    </TableCell>
-                  <TableCell  style={{ width: '25%' }}>Item</TableCell>
-                  <TableCell  style={{ width: '15%' }} >Amount</TableCell>
-                  <TableCell style={{ width: '50%' }} >Who</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {context.items.map((item) => {
-                  if (item.cat === cat) {
-                    return(
-                    <TableRow
-                      className={classes.tableRow}
-                      hover
-                      key={item.id}
-                      selected={item.taking === "yes" ? true : false}
+        <Card
+          {...rest}
+          className={clsx(classes.root, className)}
+        >
+          <CardContent className={classes.content}>
+            <div className={classes.inner}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      padding="checkbox"
+                      style={{ width: '10%' }}
                     >
-                       <TableCell padding="checkbox">
-                         {context.AdminMode ?
-                           <IconButton className={classes.button} aria-label="delete" color="primary"
-                                       onClick={() => context.removeItemFunction(item.id, cat)}>
-                             <DeleteIcon/>
-                           </IconButton>
-                           :
-                           <Checkbox
-                           checked={item.taking === "yes" ? true : false}
-                           onChange={context.handleChangeTakeFunction}
-                           color="primary"
-                           name={item.id}
-                           value={cat}
-                           />
-                         }
-                      </TableCell>
+                      { context.AdminMode ? 'Del' : 'Take' }
+                    </TableCell>
+                    <TableCell  style={{ width: '25%' }}>Item</TableCell>
+                    <TableCell  style={{ width: '15%' }} >Amount</TableCell>
+                    <TableCell style={{ width: '50%' }} >Who</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {context.items.map((item) => {
+                    if (item.cat === cat) {
+                      curexist=0;
+                      return(
+                        <TableRow
+                          className={classes.tableRow}
+                          key={item.id}
+                          selected={item.taking === 'yes' ? true : false}
+                        >
+                          <TableCell padding="checkbox">
+                            {context.AdminMode ?
+                              <IconButton
+                                aria-label="delete"
+                                className={classes.button}
+                                color="primary"
+                                onClick={() => context.removeItemFunction(item.id, cat)}
+                              >
+                                <DeleteIcon/>
+                              </IconButton>
+                              :
+                              <Checkbox
+                                checked={item.taking === 'yes' ? true : false}
+                                color="primary"
+                                disabled={!context.isGoing}
+                                name={item.id}
+                                onChange={context.handleChangeTakeFunction}
+                                value={cat}
+                              />
+                            }
+                          </TableCell>
 
-                      <TableCell>
-                        {item.title}
+                          <TableCell>
+                            {item.title}
+                          </TableCell>
+                          <TableCell>
+                            {   item.usrslist.map( (usr,i) => {
+                              let userobj = findArrayElementByTitle(context.comes,usr);
+                              if ( i==0 ) curexist=0;
+                              if ( userobj !== undefined )
+                                if (userobj.going ) curexist++;
+                            })}
+                            {curexist} / {item.amount}
+                          </TableCell>
+                          <TableCell>
+                            {item.usrslist.map( (usr,i) => {
+                              let userobj = findArrayElementByTitle(context.comes,usr);
+                              if ( i == 0 ) k=0;
+                              if ( userobj && userobj.going ) k++;
+                              return (
+                                <React.Fragment key={i}>
+                                  {  ( i>0 && k > 1 && userobj && userobj.going ) ?  ', ' : '' }
+                                  {  ( userobj && userobj.going ) ? userobj.name : '' }
+                                </React.Fragment>
+                              );
+                            }
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      )  }
+                  })
+                  }
+                  {context.AdminMode ?
+
+                    <TableRow>
+
+                      <TableCell colSpan={2}>
+                        <FormControl className={classes.margin}>
+                          <BootstrapInput
+                            defaultValue={context.currentItem}
+                            id="currentItem"
+                            onChange={context.handleChangeFunction}
+                            style={{width: '120px'}}
+                          />
+                        </FormControl>
+                      </TableCell>
+                      <TableCell colSpan={1}>
+                        <FormControl className={classes.margin}>
+                          <BootstrapInput
+                            defaultValue={context.amountOfItem}
+                            id="amountOfItem"
+                            onChange={context.handleChangeFunction}
+                            style={{width: '30px'}}
+                          />
+                        </FormControl>
                       </TableCell>
                       <TableCell>
-                        {item.exists} / {item.amount}
-                      </TableCell>
-                      <TableCell>
-                        {item.users}
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            context.handleSubmitFunction(context.currentItem, context.amountOfItem, cat)
+                          }}
+                          size="small"
+                          variant="contained"
+                        >
+                        Submit
+                        </Button>
                       </TableCell>
                     </TableRow>
-                    )  }
-                })
-                }
-                {context.AdminMode ?
-
-                  <TableRow>
-
-                    <TableCell colSpan={2}>
-                      <FormControl className={classes.margin}>
-                        <BootstrapInput defaultValue={context.currentItem} id="currentItem"
-                                        onChange={context.handleChangeFunction} style={{width: '120px'}}/>
-                      </FormControl>
-                    </TableCell>
-                    <TableCell colSpan={1}>
-                      <FormControl className={classes.margin}>
-                        <BootstrapInput defaultValue={context.amountOfItem} id="amountOfItem"
-                                        onChange={context.handleChangeFunction} style={{width: '30px'}}/>
-                      </FormControl>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="primary" size="small" onClick={() => {
-                        context.handleSubmitFunction(context.currentItem, context.amountOfItem, cat)
-                      }}>
-                        Submit
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                  :
-                  <div>
-
-                  </div>
-                }
-              </TableBody>
-            </Table>
-          </div>
-        </PerfectScrollbar>
-      </CardContent>
-      <CardActions className={classes.actions}>
-
-      </CardActions>
-    </Card>
+                    :
+                    null
+                  }
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+          <CardActions className={classes.actions} />
+        </Card>
       )}
     </MyContext.Consumer>
   );

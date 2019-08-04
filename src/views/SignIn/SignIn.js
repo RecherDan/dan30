@@ -34,9 +34,9 @@ const schema = {
 };
 
 const useStyles = makeStyles(theme => ({
-    progress: {
-      margin: theme.spacing(2),
-    },
+  progress: {
+    margin: theme.spacing(2),
+  },
   root: {
     backgroundColor: theme.palette.background.default,
     height: '100%'
@@ -198,83 +198,86 @@ const SignIn = props => {
   return (
     <MyContext.Consumer>
       {(context) => (
-    <div className={classes.root}>
-      <Grid
-        className={classes.grid}
-        container
-      >
-        <Grid
-          className={classes.quoteContainer}
-          item
-          lg={5}
-        >
-          <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              <Typography
-                className={classes.quoteText}
-                variant="h1"
-              >
+        <div className={classes.root}>
+          <Grid
+            className={classes.grid}
+            container
+          >
+            <Grid
+              className={classes.quoteContainer}
+              item
+              lg={5}
+            >
+              <div className={classes.quote}>
+                <div className={classes.quoteInner}>
+                  <Typography
+                    className={classes.quoteText}
+                    variant="h1"
+                  >
                 get ready... Dan 30's Birthday camping is coming!
-              </Typography>
+                  </Typography>
 
-            </div>
-          </div>
-        </Grid>
-        <Grid
-          className={classes.content}
-          item
-          lg={7}
-          xs={12}
-        >
-          <div className={classes.content}>
-            <div className={classes.contentHeader}>
-
-            </div>
-            <div className={classes.contentBody}>
-              <form
-                className={classes.form}
-                onSubmit={handleSignIn}
-              >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
-                  Sign in
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Sign in with social media
-                </Typography>
-                <Grid
-                  className={classes.socialButtons}
-                  container
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      onClick={context.loginFunction}
-                      size="large"
-                      variant="contained"
-                      style={{visibility: (context.currentlylogginin ? "hidden" : "visible")}}
+                </div>
+              </div>
+            </Grid>
+            <Grid
+              className={classes.content}
+              item
+              lg={7}
+              xs={12}
+            >
+              <div className={classes.content}>
+                <div className={classes.contentHeader} />
+                <div className={classes.contentBody}>
+                  <form
+                    className={classes.form}
+                    onSubmit={handleSignIn}
+                  >
+                    <Typography
+                      className={classes.title}
+                      variant="h2"
                     >
-                      <FacebookIcon className={classes.socialIcon} />
-                      Login with Facebook
-                    </Button>
-                    <CircularProgress className={classes.progress} variant="determinate" value={progress} style={{visibility: (!context.currentlylogginin ? "hidden" : "visible")}}/>
-                  </Grid>
+                  Sign in
+                    </Typography>
+                    <Typography
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                  Sign in with social media
+                    </Typography>
+                    <Grid
+                      className={classes.socialButtons}
+                      container
+                      spacing={2}
+                    >
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          onClick={context.loginFunction}
+                          size="large"
+                          style={{visibility: (context.currentlylogginin ? 'hidden' : 'visible')}}
+                          variant="contained"
+                        >
+                          <FacebookIcon className={classes.socialIcon} />
+                      Login with Facebook { (context.logginfailed ? 'Loggin failed' : '')}
+                        </Button>
+                        <CircularProgress
+                          className={classes.progress}
+                          style={{visibility: (!context.currentlylogginin ? 'hidden' : 'visible')}}
+                          value={progress}
+                          variant="determinate"
+                        />
+                      </Grid>
 
 
-                </Grid>
+                    </Grid>
 
-              </form>
-            </div>
-          </div>
-        </Grid>
-      </Grid>
-    </div>
+                  </form>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+        </div>
       )}
     </MyContext.Consumer>
   );
