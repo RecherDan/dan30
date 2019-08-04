@@ -546,6 +546,7 @@ export default class App extends Component {
     firebase.database().ref('comes/' + uid).set(item);
     this.setState({new_user: false});
     console.log('new user!');
+
   };
 
   logIn = () => {
