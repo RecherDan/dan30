@@ -40,7 +40,6 @@ var provider = new firebase.auth.FacebookAuthProvider();
 provider.setCustomParameters({
   'display': 'popup'
 });
-var database = firebase.database();
 const browserHistory = createBrowserHistory();
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -52,33 +51,6 @@ validate.validators = {
   ...validators
 };
 
-/*class MyProvider extends Component {
-
-  render() {
-    return (
-      <MyContext.Provider value={{
-        //state: this.state,
-        setLoggedIn: () => this.setState({
-          loggedIn: true
-        }),
-        setLoggedOut: () => this.setState({
-          loggedIn: false
-        }),
-        setName: (name) => this.setState({
-          name: name
-        }),
-        setNewUser: () => this.setState({
-          new_user: true
-        }),
-        setOldUser: () => this.setState({
-          new_user: false
-        })
-      }}>
-        {this.props.children}
-      </MyContext.Provider>
-    )
-  }
-}*/
 
 export default class App extends Component {
   constructor(props) {
@@ -238,8 +210,7 @@ export default class App extends Component {
       carRef.remove();
     }
     this.setState({
-      isdriver: (mode ==1 ) ? true : false
-      //incar: (mode ==1 ) ? true : false
+      isdriver: (mode ===1 ) ? true : false
     });
   }
   componentDidMount() {
@@ -247,17 +218,18 @@ export default class App extends Component {
     //and will set the user variable accordingly.
 
     //set loading to true when fetching data for authentication
-    this.setState({ loading: true });
-    let new_user = true;
+
+
     firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ loading: true });
       let self = this;
+      let new_user = true;
       if (user) {
         //this.setState({ user });
 
         let userId = user.uid;
         console.log(user);
-        if ( !this.state.waitingfornewuser ) {
-          self.setState({waitingfornewuser: true});
+
           firebase.database().ref('/comes/' + userId + '/new_user').once('value').then(function(snapshot) {
             new_user = (snapshot.exists() && (snapshot.val() === false) ? false : true);
             self.setState({ new_user: new_user });
@@ -267,7 +239,7 @@ export default class App extends Component {
             }
             // ...
           });
-        }
+
         firebase.database().ref('/comes/' + userId + '/admin').once('value').then(function(snapshot) {
           let admin = (snapshot.exists() && (snapshot.val() === true) ? true : false) ;
           self.setState({ isAdmin: admin });
@@ -297,8 +269,6 @@ export default class App extends Component {
 
         let new_user;
         let userId = user.uid;
-        if ( !this.state.waitingfornewuser ) {
-          self.setState({waitingfornewuser: true});
           firebase.database().ref('/comes/' + userId + '/new_user').once('value').then( (snapshot) => {
 
             new_user = (snapshot.exists() &&  (snapshot.val() === false) ? false : true) ;
@@ -309,7 +279,7 @@ export default class App extends Component {
             }
           // ...
           });
-        }
+
         firebase.database().ref('/comes/' + userId + '/admin').once('value').then(function(snapshot) {
           let admin = (snapshot.exists() && (snapshot.val() === true) ? true : false) ;
           self.setState({ isAdmin: admin });
@@ -326,12 +296,12 @@ export default class App extends Component {
       // ...
     }).catch(function(error) {
       // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
+     // const errorCode = error.code;
+     // const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      //const email = error.email;
       // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
+      //const credential = error.credential;
       console.log(error);
       // ...
 
@@ -345,13 +315,11 @@ export default class App extends Component {
       let newState = [];
       let newState2 = [];
       let comeid = '';
-      this.state.TotalGoing = 0;
-      this.state.TotalNotGoing = 0;
-      this.state.TotalRegistered = 0;
+      this.setState({TotalGoing: 0, TotalNotGoing: 0, TotalRegistered: 0});
       let comes = Object.assign({}, this.state.comes);
       for (let come in comesval) {
 
-        this.state.TotalRegistered++;
+        this.setState({TotalRegistered: this.state.TotalRegistered+1});
         newState[come] = ({
           name: comesval[come].name,
           img: comesval[come].img,
@@ -371,9 +339,9 @@ export default class App extends Component {
           going: (comesval[come].going ? true : false)
         });
         if ( comesval[come].going ) {
-          this.state.TotalGoing++;
+          this.setState({TotalGoing: this.state.TotalGoing+1});
         } else {
-          this.state.TotalNotGoing++;
+          this.setState({TotalNotGoing: this.state.TotalNotGoing+1});
         }
         if ( this.state.user != null && come === this.state.user.uid && comesval[come].going) {
           comeid = come;
@@ -382,8 +350,8 @@ export default class App extends Component {
         }
       }
 
-      this.state.GoingToTotal = (100* (this.state.TotalGoing /  this.state.TotalRegistered)).toFixed(0);
-      this.state.NotGoingToTotal = 100 - this.state.GoingToTotal;
+      this.setState({GoingToTotal: (100* (this.state.TotalGoing /  this.state.TotalRegistered)).toFixed(0)});
+      this.setState({NotGoingToTotal: 100 - this.state.GoingToTotal});
       this.setState({
         comeid: comeid,
         iscoming: iscoming,
@@ -523,7 +491,7 @@ export default class App extends Component {
   }
   isGoingFunction(e) {
     let value = e.target.value;
-    let going = (value == '10') ? true : false;
+    let going = (value === '10') ? true : false;
     firebase.database().ref('comes/' + this.state.user.uid + '/going/').set(going);
     this.setState({
       isGoing: going,
@@ -567,6 +535,7 @@ export default class App extends Component {
         height="50"
         src={this.state.user.photoURL}
         width="50"
+        alt={this.state.user.name}
       />
     }
     else {

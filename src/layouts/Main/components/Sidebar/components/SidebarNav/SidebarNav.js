@@ -70,7 +70,7 @@ const SidebarNav = props => {
             className={classes.button}
             component={CustomRouterLink}
             to={page.href}
-            onClick={ variant == "temporary" ? onClose : null}
+            onClick={ variant === "temporary" ? onClose : null}
           >
             <div className={classes.icon}>{page.icon}</div>
             {page.title}

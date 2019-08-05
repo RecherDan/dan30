@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import TodayIcon from '@material-ui/icons/TodayRounded';
-import MoneyIcon from '@material-ui/icons/Money';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link';
 const useStyles = makeStyles(theme => ({

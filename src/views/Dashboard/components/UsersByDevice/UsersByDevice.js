@@ -1,5 +1,5 @@
 import React from 'react';
-import { Doughnut, Pie } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -9,13 +9,9 @@ import {
   Card,
   CardHeader,
   CardContent,
-  IconButton,
-  Divider,
-  Typography
+  Divider
 } from '@material-ui/core';
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
 const useStyles = makeStyles(theme => ({
@@ -46,21 +42,6 @@ const UsersByDevice = props => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const data = {
-    datasets: [
-      {
-        data: [63, 15, 22],
-        backgroundColor: [
-          theme.palette.primary.main,
-          theme.palette.error.main
-        ],
-        borderWidth: 8,
-        borderColor: theme.palette.white,
-        hoverBorderColor: theme.palette.white
-      }
-    ],
-    labels: ['Going', 'Not Going']
-  };
 
   const options = {
     legend: {
@@ -84,20 +65,6 @@ const UsersByDevice = props => {
     }
   };
 
-  const devices = [
-    {
-      title: 'Going',
-      value: '63',
-      icon: <LaptopMacIcon />,
-      color: theme.palette.primary.main
-    },
-    {
-      title: 'Not Going',
-      value: '15',
-      icon: <TabletMacIcon />,
-      color: theme.palette.error.main
-    }
-  ];
 
   return (
     <MyContext.Consumer>

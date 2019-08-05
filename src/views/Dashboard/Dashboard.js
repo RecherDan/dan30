@@ -1,18 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import {Card, Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import {
   Budget,
-  TotalUsers,
   TasksProgress,
   TotalProfit,
   LatestSales,
-  UsersByDevice,
-  LatestProducts,
-  LatestOrders
+  UsersByDevice
 } from './components';
-import clsx from "clsx";
+
 
 const useStyles = makeStyles(theme => ({
   root: {

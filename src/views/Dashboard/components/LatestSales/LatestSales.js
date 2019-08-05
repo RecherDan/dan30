@@ -1,15 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Bar } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/styles';
 import {MyContext} from 'App';
 import Chip from '@material-ui/core/Chip';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import { withStyles } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -21,12 +15,9 @@ import {
   CardContent,
   CardActions,
   Divider,
-  Button, Avatar
+  Avatar
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import { data, options } from './chart';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -80,7 +71,7 @@ const LatestSales = props => {
               )
             }
             else {
-              return ;
+              return <div></div>;
             }
 })}
         </div>
@@ -104,14 +95,11 @@ const LatestSales = props => {
                 color="default"
                 key={usr.id}
               />
-              /* <Avatar
-                 className={classes.avatar}
-                 src={usr.img}
-               >
-                 {usr.name}
-               </Avatar>
-*/
-            )}})}
+            )}
+            else {
+              return <div></div>
+            }
+          })}
         </div>
 
       </CardContent>

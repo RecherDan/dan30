@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -8,14 +8,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Button,
-  IconButton,
-  TextField,
-  Link,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import { Facebook as FacebookIcon } from 'icons';
 
 const schema = {
   email: {
@@ -164,36 +160,12 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleBack = () => {
-    history.goBack();
-  };
-
-  const handleChange = event => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]:
-          event.target.type === 'checkbox'
-            ? event.target.checked
-            : event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
 
   const handleSignIn = event => {
     event.preventDefault();
     history.push('/');
   };
-
-  const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
+  ;
 
   return (
     <MyContext.Consumer>

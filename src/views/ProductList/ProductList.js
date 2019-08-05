@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { IconButton, Grid, Typography } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import {  Grid } from '@material-ui/core';
 import {MyContext} from 'App';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { ProductsToolbar, ProductCard } from './components';
+import { ProductCard } from './components';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -27,8 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 const ProductList = () => {
   const classes = useStyles();
-
-  const [products] = useState(mockData);
 
   return (
     <MyContext.Consumer>
@@ -68,7 +64,6 @@ const ProductList = () => {
           {context.cars.map(car => (
             <Grid
               item
-              key={car.i}
               lg={4}
               md={6}
               xs={12}

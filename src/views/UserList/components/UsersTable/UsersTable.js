@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import {findArrayElementByTitle, MyContext} from 'App';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,21 +9,17 @@ import {
   Card,
   CardActions,
   CardContent,
-  Avatar,
   Checkbox,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Typography,
-  TablePagination, Grid, withStyles
+  withStyles
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import { getInitials } from 'helpers';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import {fade} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 
@@ -90,39 +84,7 @@ const UsersTable = props => {
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
 
-
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedUsers.indexOf(id);
-    let newSelectedUsers = [];
-
-    if (selectedIndex === -1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
-    } else if (selectedIndex === 0) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedUsers = newSelectedUsers.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedUsers(newSelectedUsers);
-  };
-
-  const handlePageChange = (event, page) => {
-    setPage(page);
-  };
-
-  const handleRowsPerPageChange = event => {
-    setRowsPerPage(event.target.value);
-  };
   let k=0;
   let curexist =0;
   return (
