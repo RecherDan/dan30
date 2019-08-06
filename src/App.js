@@ -11,7 +11,9 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
 
 export const MyContext = React.createContext({
   loggedIn: false,
@@ -228,14 +230,14 @@ export default class App extends Component {
         //this.setState({ user });
 
         let userId = user.uid;
-        console.log(user);
+        //console.log(user);
 
           firebase.database().ref('/comes/' + userId + '/new_user').once('value').then(function(snapshot) {
             new_user = (snapshot.exists() && (snapshot.val() === false) ? false : true);
             self.setState({ new_user: new_user });
-            console.log('new user: ' + new_user);
+            //console.log('new user: ' + new_user);
             if (new_user) {
-              this.handle_register();
+              self.handle_register();
             }
             // ...
           });
@@ -273,7 +275,7 @@ export default class App extends Component {
 
             new_user = (snapshot.exists() &&  (snapshot.val() === false) ? false : true) ;
             self.setState({ new_user: new_user });
-            console.log('new user: ' + new_user);
+            //console.log('new user: ' + new_user);
             if ( new_user ) {
               this.handle_register();
             }
@@ -491,7 +493,8 @@ export default class App extends Component {
   }
   isGoingFunction(e) {
     let value = e.target.value;
-    let going = (value === '10') ? true : false;
+
+    let going = (Number(value) === 10);
     firebase.database().ref('comes/' + this.state.user.uid + '/going/').set(going);
     this.setState({
       isGoing: going,

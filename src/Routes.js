@@ -107,7 +107,6 @@ function PrivateRoute({ path, ...rest }) {
     />);
   }
   else {
-    contextValue.setlastpageFunction(path);
     return (<Redirect to="/sign-in" />);
   }
 }

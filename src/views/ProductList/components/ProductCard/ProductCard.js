@@ -53,7 +53,6 @@ const ProductCard = props => {
           {...rest}
           className={clsx(classes.root, className)}
         >
-          { console.log(findArrayElementByTitle(context.comes,car.driverid)) }
           <CardContent>
             <div className={classes.imageContainer}>
               <img

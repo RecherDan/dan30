@@ -58,7 +58,7 @@ const LatestSales = props => {
       <Divider />
       <CardContent>
         <div className='flex-container'>
-          {context.comes.map((usr) => {
+          {context.comes.map((usr,i) => {
             if ( usr.going ) {
               return (
                 <Chip
@@ -71,7 +71,7 @@ const LatestSales = props => {
               )
             }
             else {
-              return <div></div>;
+              return (null);
             }
 })}
         </div>
@@ -97,7 +97,7 @@ const LatestSales = props => {
               />
             )}
             else {
-              return <div></div>
+              return (null);
             }
           })}
         </div>
