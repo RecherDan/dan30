@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -148,16 +148,17 @@ const UsersTable = props => {
                           <TableCell>
                             {   item.usrslist.map( (usr,i) => {
                               let userobj = findArrayElementByTitle(context.comes,usr);
-                              if ( i==0 ) curexist=0;
+                              if ( i===0 ) curexist=0;
                               if ( userobj !== undefined )
                                 if (userobj.going ) curexist++;
+                                return (null);
                             })}
                             {curexist} / {item.amount}
                           </TableCell>
                           <TableCell>
                             {item.usrslist.map( (usr,i) => {
                               let userobj = findArrayElementByTitle(context.comes,usr);
-                              if ( i == 0 ) k=0;
+                              if ( i === 0 ) k=0;
                               if ( userobj && userobj.going ) k++;
                               return (
                                 <React.Fragment key={i}>
@@ -170,6 +171,9 @@ const UsersTable = props => {
                           </TableCell>
                         </TableRow>
                       )  }
+                    else {
+                      return (null);
+                    }
                   })
                   }
                   {context.AdminMode ?

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {  Grid } from '@material-ui/core';
 import {MyContext} from 'App';
@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { ProductCard } from './components';
-import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
   root: {

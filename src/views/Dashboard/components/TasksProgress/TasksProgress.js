@@ -9,8 +9,7 @@ import {
   CardContent,
   Grid,
   Typography,
-  Avatar,
-  LinearProgress
+  Avatar
 } from '@material-ui/core';
 import WorkIcon from '@material-ui/icons/WorkRounded';
 

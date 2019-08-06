@@ -14,8 +14,6 @@ import {
   Grid,
   Divider
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -98,6 +96,9 @@ const ProductCard = props => {
                         />
                       </ListItem>
                     )
+                  }
+                  else {
+                    return (null);
                   }
                 })
               }

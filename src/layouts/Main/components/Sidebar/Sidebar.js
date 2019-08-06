@@ -9,7 +9,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import ExitToAppIcon from '@material-ui/icons/LockOpen';
 import {MyContext} from 'App';
 
-import { Profile, SidebarNav, UpgradePlan } from './components';
+import { Profile, SidebarNav } from './components';
 
 const useStyles = makeStyles(theme => ({
   drawer: {

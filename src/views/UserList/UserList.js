@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {  UsersTable } from './components';
-import mockData from './data';
 import {MyContext} from 'App';
 import {Grid} from "@material-ui/core";
-import { fade, withStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 
 
